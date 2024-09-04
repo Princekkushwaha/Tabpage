@@ -9,6 +9,18 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
+  // List of pages for BottomNavigationBar
+  final List<Widget> _pages = [
+    const PostTab(postType: 'Text', content: 'This is a sample text post.'),
+    const PostTab(
+        postType: 'Image',
+        content:
+            'https://cdn.pixabay.com/photo/2023/10/10/15/37/motorcycle-8306765_1280.jpg'),
+    const PostTab(
+        postType: 'Video',
+        content: 'https://youtu.be/n_FCrCQ6-bA?si=yZrkI_ebfn2S_OR-'),
+  ];
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -17,40 +29,29 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Post Tabs'),
-          // backgroundColor: Colors.cyanAccent,
-          bottom: const TabBar(
-            labelColor: Colors.green,
-            labelStyle: TextStyle(fontSize: 17),
-            tabs: [
-              Tab(
-                text: 'Text Page',
-              ),
-              Tab(
-                text: 'Image Page',
-              ),
-              Tab(
-                text: 'Video Page',
-              ),
-            ],
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Post Tabs'),
+        // backgroundColor: Colors.cyanAccent,
+      ),
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.text_fields),
+            label: 'Text Page',
           ),
-        ),
-        body: const TabBarView(
-          children: [
-            PostTab(postType: 'Text', content: 'This is a sample text post.'),
-            PostTab(
-                postType: 'Image',
-                content:
-                    'https://cdn.pixabay.com/photo/2023/10/10/15/37/motorcycle-8306765_1280.jpg'),
-            PostTab(
-                postType: 'Video',
-                content: 'https://youtu.be/n_FCrCQ6-bA?si=yZrkI_ebfn2S_OR-'),
-          ],
-        ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.image),
+            label: 'Image Page',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.video_library),
+            label: 'Video Page',
+          ),
+        ],
       ),
     );
   }
